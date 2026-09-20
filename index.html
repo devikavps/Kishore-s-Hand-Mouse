@@ -4,70 +4,422 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kishore's Hand Mouse</title>
+
 <style>
-:root{--bg:#08111f;--panel:#0d1b30;--text:#f5f8ff;--muted:#aebbd0;--accent:#4fd1ff;--accent2:#7567ff;--ok:#32e48a;--danger:#ff6875;--border:rgba(255,255,255,.11)}
-*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 15% 10%,rgba(79,209,255,.16),transparent 28%),radial-gradient(circle at 85% 20%,rgba(117,103,255,.18),transparent 30%),var(--bg);min-height:100vh}
-.wrap{max-width:1080px;margin:auto;padding:34px 20px 60px}header{display:flex;align-items:center;gap:18px;padding:8px 0 34px}.logo{width:72px;height:72px;border-radius:20px;object-fit:cover;background:#0c1a33;border:1px solid var(--border)}
-.brand h1{margin:0;font-size:clamp(28px,5vw,46px);letter-spacing:-1px}.brand p{margin:6px 0 0;color:var(--muted);font-size:16px}
-.hero,.panel{background:rgba(13,27,48,.78);border:1px solid var(--border);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.25);backdrop-filter:blur(10px)}
-.hero{padding:34px}.hero h2{margin:0 0 12px;font-size:32px}.hero p{color:var(--muted);max-width:760px;line-height:1.65}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:24px}.card{padding:20px;border-radius:18px;border:1px solid var(--border);background:rgba(255,255,255,.035)}.card b{display:block;margin-bottom:7px}.gesture{color:var(--accent);font-size:13px}
-.download.panel{margin-top:22px;padding:26px}.status{display:flex;align-items:center;gap:10px;padding:13px 15px;border-radius:13px;background:rgba(255,255,255,.045);color:var(--muted);margin:18px 0}
-.dot{width:10px;height:10px;border-radius:50%;background:#888}.dot.ok{background:var(--ok);box-shadow:0 0 14px var(--ok)}.dot.bad{background:var(--danger);box-shadow:0 0 14px var(--danger)}
-.actions{display:flex;gap:12px;flex-wrap:wrap}button,.download-btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;display:inline-block}
-button{background:#1b3153;color:var(--text)}.download-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06111f}.download-btn.disabled{pointer-events:none;opacity:.45;filter:grayscale(.6)}
-small{color:var(--muted);line-height:1.6;display:block;margin-top:12px}footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
+:root{
+  --bg:#08111f;
+  --panel:#0d1b30;
+  --text:#f5f8ff;
+  --muted:#aebbd0;
+  --accent:#4fd1ff;
+  --accent2:#7567ff;
+  --ok:#32e48a;
+  --danger:#ff6875;
+  --border:rgba(255,255,255,.11)
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  font-family:Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%,rgba(79,209,255,.16),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(117,103,255,.18),transparent 30%),
+    var(--bg);
+  min-height:100vh
+}
+
+.wrap{
+  max-width:1080px;
+  margin:auto;
+  padding:34px 20px 60px
+}
+
+header{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:8px 0 34px
+}
+
+.logo{
+  width:72px;
+  height:72px;
+  border-radius:20px;
+  object-fit:cover;
+  background:#0c1a33;
+  border:1px solid var(--border)
+}
+
+.brand h1{
+  margin:0;
+  font-size:clamp(28px,5vw,46px);
+  letter-spacing:-1px
+}
+
+.brand p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:16px
+}
+
+.hero,
+.panel{
+  background:rgba(13,27,48,.78);
+  border:1px solid var(--border);
+  border-radius:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  backdrop-filter:blur(10px)
+}
+
+.hero{
+  padding:34px
+}
+
+.hero h2{
+  margin:0 0 12px;
+  font-size:32px
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:760px;
+  line-height:1.65
+}
+
+/* Gesture Guide */
+.gesture-guide{
+  margin-top:24px;
+  padding:14px;
+  border-radius:20px;
+  border:1px solid rgba(79,209,255,.22);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3,18,40,.92),
+      rgba(6,24,49,.68)
+    );
+  box-shadow:0 18px 44px rgba(0,0,0,.22);
+  overflow:hidden
+}
+
+.guide-title{
+  padding:6px 8px 14px;
+  font-size:18px;
+  font-weight:800;
+  color:var(--text);
+  letter-spacing:.2px
+}
+
+.gesture-image{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:14px;
+  border:1px solid rgba(79,209,255,.18);
+  box-shadow:0 0 30px rgba(79,209,255,.08)
+}
+
+/* Download / Camera */
+.download.panel{
+  margin-top:22px;
+  padding:26px
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 15px;
+  border-radius:13px;
+  background:rgba(255,255,255,.045);
+  color:var(--muted);
+  margin:18px 0
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#888
+}
+
+.dot.ok{
+  background:var(--ok);
+  box-shadow:0 0 14px var(--ok)
+}
+
+.dot.bad{
+  background:var(--danger);
+  box-shadow:0 0 14px var(--danger)
+}
+
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap
+}
+
+button,
+.download-btn{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block
+}
+
+button{
+  background:#1b3153;
+  color:var(--text)
+}
+
+.download-btn{
+  background:linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+  color:#06111f
+}
+
+.download-btn.disabled{
+  pointer-events:none;
+  opacity:.45;
+  filter:grayscale(.6)
+}
+
+small{
+  color:var(--muted);
+  line-height:1.6;
+  display:block;
+  margin-top:12px
+}
+
+footer{
+  margin-top:26px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px
+}
+
+/* Mobile */
+@media (max-width:700px){
+  header{
+    align-items:flex-start
+  }
+
+  .logo{
+    width:58px;
+    height:58px
+  }
+
+  .hero{
+    padding:22px
+  }
+
+  .hero h2{
+    font-size:26px
+  }
+
+  .download.panel{
+    padding:22px
+  }
+
+  .gesture-guide{
+    padding:8px
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
-<header>
-<img class="logo" src="HandMouse_Icon.png" alt="HandMouse icon">
-<div class="brand"><h1>Kishore's Hand Mouse</h1><p>Control your Windows PC with hand gestures.</p></div>
-</header>
 
-<section class="hero">
-<h2>Your hand is your mouse.</h2>
-<p>HandMouse uses your webcam to track hand gestures for cursor movement, clicking, double-clicking, dragging, and scrolling.</p>
-<div class="grid">
-<div class="card"><b>Left Click</b><span class="gesture">Thumb + Index pinch</span></div>
-<div class="card"><b>Right Click</b><span class="gesture">Thumb + Middle pinch</span></div>
-<div class="card"><b>Double Click</b><span class="gesture">Thumb + Index + Middle pinch</span></div>
-<div class="card"><b>Drag</b><span class="gesture">Thumb + Index + Middle + Ring pinch</span></div>
-</div>
-</section>
+  <!-- Header -->
+  <header>
+    <img
+      class="logo"
+      src="HandMouse_Icon.png"
+      alt="Kishore's Hand Mouse icon"
+    >
 
-<section class="download panel">
-<h2>Check your camera</h2>
-<div class="status"><span id="dot" class="dot"></span><span id="statusText">Checking for a camera…</span></div>
-<div class="actions">
-<button id="checkBtn" type="button">Check Camera Again</button>
-<a id="downloadBtn" class="download-btn disabled"
-href="https://github.com/devikavps/Kishore-s-Hand-Mouse/releases/latest/download/Hand.Mouse_Setup.exe">Download Hand Mouse</a>
-</div>
-<small>A camera/webcam is required for hand tracking. Your browser may ask for camera permission. This page does not upload your camera stream.</small>
-</section>
-<footer>© Kishore's Hand Mouse</footer>
+    <div class="brand">
+      <h1>Kishore's Hand Mouse</h1>
+      <p>Control your Windows PC with hand gestures.</p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <section class="hero">
+
+    <h2>Your hand is your mouse.</h2>
+
+    <p>
+      HandMouse uses your webcam to track hand gestures for
+      cursor movement, clicking, double-clicking, dragging,
+      and scrolling.
+    </p>
+
+    <!-- New Gesture Design -->
+    <div class="gesture-guide">
+
+      <div class="guide-title">
+        Gesture Guide
+      </div>
+
+      <img
+        class="gesture-image"
+        src="gesture-guide.png"
+        alt="Gesture guide showing Left Click, Right Click, Double Click, Drag, and Scroll hand gestures"
+      >
+
+    </div>
+
+  </section>
+
+  <!-- Camera / Download -->
+  <section class="download panel">
+
+    <h2>Check your camera</h2>
+
+    <div class="status">
+      <span id="dot" class="dot"></span>
+      <span id="statusText">
+        Checking for a camera…
+      </span>
+    </div>
+
+    <div class="actions">
+
+      <button
+        id="checkBtn"
+        type="button"
+      >
+        Check Camera Again
+      </button>
+
+      <a
+        id="downloadBtn"
+        class="download-btn disabled"
+        href="https://github.com/devikavps/Kishore-s-Hand-Mouse/releases/latest/download/Hand_Mouse_Setup.exe"
+      >
+        Download Hand Mouse
+      </a>
+
+    </div>
+
+    <small>
+      A camera/webcam is required for hand tracking.
+      Your browser may ask for camera permission.
+      This page does not upload your camera stream.
+    </small>
+
+  </section>
+
+  <footer>
+    © Kishore's Hand Mouse
+  </footer>
+
 </div>
 
 <script>
+
 async function checkCamera(){
-const dot=document.getElementById("dot"),statusText=document.getElementById("statusText"),downloadBtn=document.getElementById("downloadBtn");
-dot.className="dot";statusText.textContent="Checking for a camera…";downloadBtn.classList.add("disabled");
-if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-dot.className="dot bad";statusText.textContent="Camera access is not supported in this browser.";return;
+
+  const dot =
+    document.getElementById("dot");
+
+  const statusText =
+    document.getElementById("statusText");
+
+  const downloadBtn =
+    document.getElementById("downloadBtn");
+
+  dot.className = "dot";
+
+  statusText.textContent =
+    "Checking for a camera…";
+
+  downloadBtn.classList.add("disabled");
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    dot.className = "dot bad";
+
+    statusText.textContent =
+      "Camera access is not supported in this browser.";
+
+    return;
+  }
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video:true,
+        audio:false
+      });
+
+    const tracks =
+      stream.getVideoTracks();
+
+    tracks.forEach(
+      track => track.stop()
+    );
+
+    if(tracks.length > 0){
+
+      dot.className = "dot ok";
+
+      statusText.textContent =
+        "Camera detected ✓ Download enabled.";
+
+      downloadBtn.classList.remove("disabled");
+
+    }else{
+
+      dot.className = "dot bad";
+
+      statusText.textContent =
+        "No camera detected.";
+    }
+
+  }catch(err){
+
+    dot.className = "dot bad";
+
+    statusText.textContent =
+      err.name === "NotAllowedError"
+        ? "Camera permission was denied. Allow camera access and try again."
+        : "No usable camera detected.";
+  }
 }
-try{
-const stream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});
-const tracks=stream.getVideoTracks();tracks.forEach(t=>t.stop());
-if(tracks.length>0){dot.className="dot ok";statusText.textContent="Camera detected ✓ Download enabled.";downloadBtn.classList.remove("disabled");}
-else{dot.className="dot bad";statusText.textContent="No camera detected.";}
-}catch(err){
-dot.className="dot bad";
-statusText.textContent=err.name==="NotAllowedError"?"Camera permission was denied. Allow camera access and try again.":"No usable camera detected.";
-}}
-document.getElementById("checkBtn").addEventListener("click",checkCamera);
-window.addEventListener("load",checkCamera);
+
+document
+  .getElementById("checkBtn")
+  .addEventListener(
+    "click",
+    checkCamera
+  );
+
+window.addEventListener(
+  "load",
+  checkCamera
+);
+
 </script>
+
 </body>
 </html>
